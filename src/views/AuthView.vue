@@ -22,16 +22,32 @@
           v-model="password"
         />
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" @click.prevent="authUser">
+        Submit
+      </button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, Ref } from "vue";
+import AuthService from "@/services/AuthService";
 
 let email: Ref<string> = ref("");
 let password: Ref<string> = ref("");
+
+const authUser = async () => {
+  const auth = new AuthService();
+  const success = await auth.login(email.value, password.value);
+  if (success) {
+    alert("Login successful");
+  } else {
+    alert(`
+      Siempre va a dar error ya que no hay un backend ---
+      Always going to give an error because there is no backend
+    `);
+  }
+};
 </script>
 
 <style scoped></style>
